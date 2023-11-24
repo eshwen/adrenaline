@@ -35,4 +35,3 @@ jobs:
         with:
           python-version: ${{ inputs.python-version }}
           path: ${{ inputs.path }}
-          workflow-ref: ${{ env.WORKFLOW_REF }}

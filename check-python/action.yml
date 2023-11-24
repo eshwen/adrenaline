@@ -9,10 +9,6 @@ inputs:
     description: 'Path to point to for checks'
     required: false
     default: '.'
-  workflow-ref:
-    description: 'The ref of the workflow to use'
-    required: false
-    default: ${{ github.workflow_ref }}
 
 # TODO: Add options to enable/disable checks for specific packages? See if I can check whether a package is installed or not before attempting to run it?
 
@@ -21,16 +17,12 @@ runs:
 
   steps:
     - uses: actions/checkout@v4
-      with:
-        ref: ${{ inputs.workflow-ref }}
-        repository: eshwen/adrenaline
 
     - name: Build Python
-      uses: ./builder
+      uses: eshwen/adrenaline/builder@${{ github.workflow_ref }}
       with:
           python-version: ${{ inputs.python-version }}
           install-dev-deps: true
-          workflow-ref: ${{ inputs.workflow-ref }}
 
     - id: ruff
       if: always()
