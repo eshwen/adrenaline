@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Test t-wave
+      - name: Test Python code
         if: always()
         uses: ./test-python
         with:
