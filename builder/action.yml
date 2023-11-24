@@ -9,6 +9,10 @@ inputs:
     description: 'Whether to install dev dependencies'
     required: false
     default: 'false'
+  workflow-ref:
+    description: 'The ref of the workflow to use'
+    required: false
+    default: ${{ github.workflow_ref }}
 
 runs:
   using: 'composite'
@@ -17,8 +21,7 @@ runs:
     # Weird workaround so that the other actions and workflows calling this can see it
     - uses: actions/checkout@v4
       with:
-        ref: ${{ github.workflow_ref }}
-        path: .
+        ref: ${{ inputs.workflow-ref }}
         repository: eshwen/adrenaline
 
     - name: Set up Python ${{ inputs.python-version }}
