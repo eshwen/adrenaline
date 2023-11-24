@@ -14,7 +14,12 @@ runs:
   using: 'composite'
 
   steps:
+    # Weird workaround so that the other actions and workflows calling this can see it
     - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.workflow_ref }}
+        path: .
+        repository: eshwen/adrenaline
 
     - name: Set up Python ${{ inputs.python-version }}
       uses: actions/setup-python@v4
