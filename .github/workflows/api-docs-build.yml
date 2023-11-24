@@ -13,18 +13,13 @@ on:
         type: string
         default: ''
 
-concurrency:
-  group: docs-${{ github.head_ref || github.ref }}
-  cancel-in-progress: true
-
 jobs:
-
   docs:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-      - uses: eshwen/adrenaline/builder@v0.2.4
+      - uses: eshwen/adrenaline/builder@v0.2.5
         with:
           python-version: ${{ inputs.python-version }}
           install-dev-deps: true
