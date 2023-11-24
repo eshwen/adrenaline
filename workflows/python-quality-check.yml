@@ -25,7 +25,7 @@ jobs:
 
       - name: Check code quality
         if: always()
-        uses: ./.github/actions/check-python
+        uses: ./check-python
         with:
           python-version: ${{ inputs.python-version }}
           path: ${{ inputs.path }}
