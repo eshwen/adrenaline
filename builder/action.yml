@@ -3,7 +3,7 @@ description: 'Build project with Poetry'
 
 inputs:
   python-version:
-    description: 'The version of Python to use'
+    description: 'The version of Python to use. For 3.10, remember to enclose it in quotes so it's cast as a string!'
     required: true
   install-dev-deps:
     description: 'Whether to install dev dependencies'
