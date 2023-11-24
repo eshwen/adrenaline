@@ -30,7 +30,7 @@ jobs:
 
       - name: Test t-wave
         if: always()
-        uses: ./.github/actions/test-python
+        uses: ./test-python
         with:
           pkg-name: ${{ inputs.pkg-name }}
           path: ${{ inputs.tests-path }}
