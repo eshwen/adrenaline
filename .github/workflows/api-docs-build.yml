@@ -27,10 +27,7 @@ jobs:
       - uses: ./.github/actions/builder
         with:
           python-version: ${{ inputs.python-version }}
-
-      - name: Install tools
-        shell: bash
-        run: poetry install --only dev
+          install-dev-deps: true
 
       - name: Build Changelog
         run: |
