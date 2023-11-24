@@ -30,7 +30,7 @@ jobs:
 
       - name: Test Python code
         if: always()
-        uses: eshwen/adrenaline/test-python@v0.2.3
+        uses: eshwen/adrenaline/test-python@v0.2.4
         with:
           pkg-name: ${{ inputs.pkg-name }}
           tests-path: ${{ inputs.tests-path }}
