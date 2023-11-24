@@ -26,6 +26,7 @@ jobs:
           ref: ${{ github.workflow_ref }}
           path: .
           repository: eshwen/adrenaline
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check code quality
         if: always()
