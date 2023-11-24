@@ -3,7 +3,7 @@ description: 'Test our Python code'
 
 inputs:
   python-version:
-    description: 'The version of Python to use. For 3.10, remember to enclose it in quotes so it's cast as a string!'
+    description: The version of Python to use. For 3.10, remember to enclose it in quotes so it is cast as a string!
     required: true
   pkg-name:
     description: 'The name of the package (for coverage)'
