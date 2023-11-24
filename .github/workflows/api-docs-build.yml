@@ -1,19 +1,16 @@
 name: Build API docs
-description: 'Build API documentation with MkDocs and publish to GitHub Pages'
 
 on:
-  release:
-    types:
-      - published
-
   workflow_call:
     inputs:
       python-version:
         description: 'The version of Python to use'
+        type: string
         required: true
       changelog:
         description: 'The changelog file to use (optional). Requires the `git-changelog` package to be installed'
         required: false
+        type: string
         default: ''
 
 concurrency:
