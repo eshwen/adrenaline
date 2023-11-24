@@ -28,7 +28,8 @@ jobs:
 
       - name: Check code quality
         if: always()
-        uses: eshwen/adrenaline/check-python@${{ env.WORKFLOW_REF }}
+        uses: eshwen/adrenaline/check-python
         with:
           python-version: ${{ inputs.python-version }}
           path: ${{ inputs.path }}
+          ref: ${{ env.WORKFLOW_REF }}
