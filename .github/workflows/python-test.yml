@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       python-version:
-        description: 'The version of Python to use. For 3.10, remember to enclose it in quotes so it's cast as a string!'
+        description: The version of Python to use. For 3.10, remember to enclose it in quotes so it is cast as a string!
         type: string
         required: true
       pkg-name:
@@ -30,7 +30,7 @@ jobs:
 
       - name: Test Python code
         if: always()
-        uses: eshwen/adrenaline/test-python@v0.2.3
+        uses: eshwen/adrenaline/test-python@v0.2.4
         with:
           pkg-name: ${{ inputs.pkg-name }}
           tests-path: ${{ inputs.tests-path }}
