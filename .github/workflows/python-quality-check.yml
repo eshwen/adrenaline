@@ -1,15 +1,16 @@
 name: Check Quality of Python
-description: 'Check Python code quality with Ruff, Black, and Mypy'
 
 on:
   workflow_call:
     inputs:
       python-version:
         description: 'The version of Python to use'
+        type: string
         required: true
       path:
         description: 'Path to point to for checks'
         required: false
+        type: string
         default: '.'
 
 concurrency:

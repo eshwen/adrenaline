@@ -1,18 +1,20 @@
 name: Test Python
-description: 'Test Python code with pytest'
 
 on:
   workflow_call:
     inputs:
       python-version:
         description: 'The version of Python to use'
+        type: string
         required: true
       pkg-name:
         description: 'The name of the package (for coverage)'
+        type: string
         required: true
       tests-path:
         description: 'Path to point to for tests'
         required: false
+        type: string
         default: 'tests'
 
 concurrency:
