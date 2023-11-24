@@ -33,5 +33,5 @@ jobs:
         uses: eshwen/adrenaline/test-python@v0.2.2
         with:
           pkg-name: ${{ inputs.pkg-name }}
-          path: ${{ inputs.tests-path }}
+          tests-path: ${{ inputs.tests-path }}
           python-version: ${{ inputs.python-version }}
