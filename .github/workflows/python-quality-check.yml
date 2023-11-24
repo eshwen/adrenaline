@@ -22,6 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.workflow_ref }}
+          path: .
+          repository: eshwen/adrenaline
 
       - name: Check code quality
         if: always()

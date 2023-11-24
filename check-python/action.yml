@@ -17,10 +17,6 @@ runs:
 
   steps:
     - uses: actions/checkout@v4
-      with:
-        ref: ${{ github.workflow_ref }}
-        path: .
-        repository: eshwen/adrenaline
 
     - name: Build Python
       uses: ./builder
