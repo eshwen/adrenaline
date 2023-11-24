@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: ./builder
+      - uses: eshwen/adrenaline/builder@${{ github.workflow_ref }}
         with:
           python-version: ${{ inputs.python-version }}
           install-dev-deps: true

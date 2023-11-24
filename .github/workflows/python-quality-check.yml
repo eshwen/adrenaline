@@ -22,15 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.workflow_ref }}
-          path: .
-          repository: eshwen/adrenaline
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check code quality
         if: always()
-        uses: ./check-python
+        uses: eshwen/adrenaline/check-python@${{ github.workflow_ref }}
         with:
           python-version: ${{ inputs.python-version }}
           path: ${{ inputs.path }}
