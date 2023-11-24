@@ -1,0 +1,30 @@
+name: Check Quality of Python
+description: 'Check Python code quality with Ruff, Black, and Mypy'
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        description: 'The version of Python to use'
+        required: true
+      path:
+        description: 'Path to point to for checks'
+        required: false
+        default: '.'
+
+concurrency:
+  group: check-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check code quality
+        if: always()
+        uses: ./.github/actions/check-python
+        with:
+          python-version: ${{ inputs.python-version }}
+          path: ${{ inputs.path }}

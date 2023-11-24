@@ -1,0 +1,46 @@
+name: Build API docs
+description: 'Build API documentation with MkDocs and publish to GitHub Pages'
+
+on:
+  release:
+    types:
+      - published
+
+  workflow_call:
+    inputs:
+      python-version:
+        description: 'The version of Python to use'
+        required: true
+      changelog:
+        description: 'The changelog file to use (optional). Requires the `git-changelog` package to be installed'
+        required: false
+        default: ''
+
+concurrency:
+  group: docs-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/builder
+        with:
+          python-version: ${{ inputs.python-version }}
+
+      - name: Install tools
+        shell: bash
+        run: poetry install --only dev
+
+      - name: Build Changelog
+        run: |
+          git fetch --unshallow
+          poetry run git-changelog -p github -o ${{ inputs.changelog }}
+        if: ${{ inputs.changelog != inputs.changelog.default }}
+
+      - name: Build and publish
+        run: |
+          poetry run mkdocs gh-deploy
