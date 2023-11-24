@@ -13,6 +13,9 @@ on:
         type: string
         default: '.'
 
+env:
+  WORKFLOW_REF: ${{ github.workflow_ref }}
+
 concurrency:
   group: check-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
@@ -25,7 +28,7 @@ jobs:
 
       - name: Check code quality
         if: always()
-        uses: eshwen/adrenaline/check-python@${{ github.workflow_ref }}
+        uses: eshwen/adrenaline/check-python@${{ env.WORKFLOW_REF }}
         with:
           python-version: ${{ inputs.python-version }}
           path: ${{ inputs.path }}
