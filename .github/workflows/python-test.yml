@@ -26,7 +26,7 @@ jobs:
 
       - name: Test Python code
         if: always()
-        uses: eshwen/adrenaline/test-python@v0.2.4
+        uses: eshwen/adrenaline/test-python@v0.2.5
         with:
           pkg-name: ${{ inputs.pkg-name }}
           tests-path: ${{ inputs.tests-path }}

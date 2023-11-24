@@ -21,7 +21,7 @@ jobs:
 
       - name: Check code quality
         if: always()
-        uses: eshwen/adrenaline/check-python@v0.2.4
+        uses: eshwen/adrenaline/check-python@v0.2.5
         with:
           python-version: ${{ inputs.python-version }}
           path: ${{ inputs.path }}
