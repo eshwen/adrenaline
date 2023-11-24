@@ -1,0 +1,36 @@
+name: 'Test Python'
+description: 'Test our Python code'
+
+inputs:
+  python-version:
+    description: 'The version of Python to use'
+    required: true
+  pkg-name:
+    description: 'The name of the package (for coverage)'
+    required: true
+  path:
+    description: 'Path to point to for pytest'
+    required: false
+    default: 'tests'
+
+runs:
+  using: 'composite'
+
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Build Python
+      uses: ./.github/actions/builder
+      with:
+        python-version: ${{ inputs.python-version }}
+        install-dev-deps: true
+
+    - name: Install test failure annotator
+      shell: bash
+      run: |
+        poetry run pip install pytest-github-actions-annotate-failures
+
+    - name: Test Python
+      shell: bash
+      run: poetry run pytest --cov ${{ inputs.pkg-name }} ${{ inputs.path }}
+      if: ${{ always() }}

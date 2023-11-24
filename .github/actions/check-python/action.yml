@@ -1,0 +1,40 @@
+name: 'Python code check'
+description: 'Run Python code quality tools against code'
+
+inputs:
+  python-version:
+    description: 'The version of Python to use'
+    required: true
+  path:
+    description: 'Path to point to for checks'
+    required: false
+    default: '.'
+
+# TODO: Add options to enable/disable checks for specific packages? See if I can check whether a package is installed or not before attempting to run it?
+
+runs:
+  using: 'composite'
+
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Build Python
+      uses: ./.github/actions/builder
+      with:
+          python-version: ${{ inputs.python-version }}
+          install-dev-deps: true
+
+    - id: ruff
+      if: always()
+      shell: bash
+      run: poetry run ruff ${{ inputs.path }}
+
+    - id: Black
+      if: always()
+      shell: bash
+      run: poetry run black ${{ inputs.path }} --check --verbose --diff --color
+
+    - id: mypy
+      if: always()
+      shell: bash
+      run: poetry run mypy ${{ inputs.path }}
