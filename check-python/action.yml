@@ -19,7 +19,7 @@ runs:
     - uses: actions/checkout@v4
 
     - name: Build Python
-      uses: eshwen/adrenaline/builder@v0.2.1
+      uses: eshwen/adrenaline/builder@71bb3b897871d64574c5a9b95a7a3509a52e9192
 
     - id: ruff
       if: always()
