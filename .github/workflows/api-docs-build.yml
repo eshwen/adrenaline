@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: eshwen/adrenaline/builder@v0.2.2
+      - uses: eshwen/adrenaline/builder@v0.2.3
         with:
           python-version: ${{ inputs.python-version }}
           install-dev-deps: true
