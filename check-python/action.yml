@@ -25,14 +25,16 @@ runs:
         install-dev-deps: true
 
     - id: ruff
+      name: Ruff lint
       if: always()
       shell: bash
       run: poetry run ruff ${{ inputs.path }}
 
-    - id: Black
+    - id: ruff_format
+      name: Ruff format
       if: always()
       shell: bash
-      run: poetry run black ${{ inputs.path }} --check --verbose --diff --color
+      run: poetry run ruff format ${{ inputs.path }} --diff
 
     - id: mypy
       if: always()
