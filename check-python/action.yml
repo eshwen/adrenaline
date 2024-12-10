@@ -28,7 +28,7 @@ runs:
       name: Ruff lint
       if: always()
       shell: bash
-      run: poetry run ruff ${{ inputs.path }}
+      run: poetry run ruff check ${{ inputs.path }}
 
     - id: ruff_format
       name: Ruff format
