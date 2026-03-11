@@ -1,0 +1,47 @@
+name: 'Python code check'
+description: 'Run Python code quality tools against code'
+
+inputs:
+  python-version-file:
+    description: The file containing the Python version of your project. Defaults to pyproject.toml.
+    required: false
+    default: pyproject.toml
+  uv-version:
+    description: The version of uv to install e.g., `0.5.0` Defaults to the version in pyproject.toml or 'latest'.
+    default: ""
+  path:
+    description: 'Path to point to for checks'
+    required: false
+    default: '.'
+
+# TODO: Add options to enable/disable checks for specific packages? See if I can check whether a package is installed or not before attempting to run it?
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v6
+
+    - name: Build Project
+      uses: eshwen/adrenaline/uv/builder@v0.8.0
+      with:
+        python-version-file: ${{ inputs.python-version-file }}
+        install-dev-deps: true
+        uv-version: ${{ inputs.uv-version }}
+
+    - id: ruff
+      name: Ruff lint
+      if: always()
+      shell: bash
+      run: uv run ruff check ${{ inputs.path }}
+
+    - id: ruff_format
+      name: Ruff format
+      if: always()
+      shell: bash
+      run:
+        uv run ruff format ${{ inputs.path }} --diff
+
+    - id: mypy
+      if: always()
+      shell: bash
+      run: uv run mypy ${{ inputs.path }}
