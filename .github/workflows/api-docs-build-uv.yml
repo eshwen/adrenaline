@@ -1,0 +1,45 @@
+name: Build API docs (uv)
+
+on:
+  workflow_call:
+    inputs:
+      python-version-file:
+        description: The file containing the Python version of your project. Defaults to pyproject.toml.
+        required: false
+        type: string
+        default: pyproject.toml
+      uv-version:
+        description: The version of uv to install e.g., `0.5.0` Defaults to the version in pyproject.toml or 'latest'.
+        type: string
+        required: false
+        default: ""
+      changelog:
+        description: 'The changelog file to use (optional)'
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: eshwen/adrenaline/uv/builder@v0.8.0
+        with:
+          python-version-file: ${{ inputs.python-version-file }}
+          install-dev-deps: true
+          uv-version: ${{ inputs.uv-version }}
+
+      - name: Build Changelog
+        run: |
+          git fetch --unshallow
+          uv tool install git-changelog
+          uv run git-changelog -p github -o ${{ inputs.changelog }}
+        if: ${{ inputs.changelog != inputs.changelog.default }}
+        shell: bash
+
+      - name: Build and publish
+        run: |
+          uv run mkdocs gh-deploy
+        shell: bash
