@@ -1,0 +1,40 @@
+name: 'Test Python'
+description: 'Test our Python code'
+
+inputs:
+  python-version:
+    description: The version of Python to use. For 3.10, remember to enclose it in quotes so it is cast as a string!
+    required: true
+  pkg-name:
+    description: 'The name of the package (for coverage)'
+    required: true
+  tests-path:
+    description: 'Path to point to for pytest'
+    required: false
+    default: 'tests'
+  args:
+    description: 'Extra arguments to pass to pytest, e.g., `--cov-report xml`'
+    required: false
+    default: ''
+
+runs:
+  using: 'composite'
+
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Build Python
+      uses: eshwen/adrenaline/poetry/builder@v0.8.0
+      with:
+        python-version: ${{ inputs.python-version }}
+        install-dev-deps: true
+
+    - name: Install test failure annotator
+      shell: bash
+      run: |
+        poetry run pip install pytest-github-actions-annotate-failures
+
+    - name: Test Python
+      shell: bash
+      run: poetry run pytest ${{ inputs.args }} --cov ${{ inputs.pkg-name }} ${{ inputs.tests-path }}
+      if: ${{ always() }}

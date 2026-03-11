@@ -1,0 +1,42 @@
+name: Build Project
+description: 'Build project with uv'
+
+inputs:
+  python-version-file:
+    description: The file containing the Python version of your project. Defaults to pyproject.toml.
+    required: false
+    default: pyproject.toml
+  uv-version:
+    description: The version of uv to install e.g., `0.5.0` Defaults to the version in pyproject.toml or 'latest'.
+    default: ""
+  install-dev-deps:
+    description: 'Whether to install dev dependencies'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'composite'
+
+  steps:
+    - uses: actions/checkout@v6
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version-file: ${{ inputs.python-version-file }}
+
+    - uses: astral-sh/setup-uv@v7
+      with:
+        version: ${{ inputs.uv-version }}
+        enable-cache: true
+
+    - name: Install Dependencies (without dev)
+      run: |
+        uv sync --locked --no-dev
+      shell: bash
+      if: ${{ inputs.install-dev-deps == 'false' }}
+
+    - name: Install Dependencies (with dev)
+      run: |
+        uv sync --locked --all-groups
+      shell: bash
+      if: ${{ inputs.install-dev-deps == 'true' }}

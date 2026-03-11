@@ -2,9 +2,13 @@ name: 'Test Python'
 description: 'Test our Python code'
 
 inputs:
-  python-version:
-    description: The version of Python to use. For 3.10, remember to enclose it in quotes so it is cast as a string!
-    required: true
+  python-version-file:
+    description: The file containing the Python version of your project. Defaults to pyproject.toml.
+    required: false
+    default: pyproject.toml
+  uv-version:
+    description: The version of uv to install e.g., `0.5.0` Defaults to the version in pyproject.toml or 'latest'.
+    default: ""
   pkg-name:
     description: 'The name of the package (for coverage)'
     required: true
@@ -19,22 +23,22 @@ inputs:
 
 runs:
   using: 'composite'
-
   steps:
     - uses: actions/checkout@v4
 
-    - name: Build Python
-      uses: eshwen/adrenaline/builder@v0.6.0
+    - name: Build Project
+      uses: eshwen/adrenaline/uv/builder@v0.8.0
       with:
         python-version: ${{ inputs.python-version }}
         install-dev-deps: true
+        uv-version: ${{ inputs.uv-version }}
 
     - name: Install test failure annotator
       shell: bash
       run: |
-        poetry run pip install pytest-github-actions-annotate-failures
+        uv pip install pytest-github-actions-annotate-failures
 
     - name: Test Python
       shell: bash
-      run: poetry run pytest ${{ inputs.args }} --cov ${{ inputs.pkg-name }} ${{ inputs.tests-path }}
+      run: uv run pytest ${{ inputs.args }} --cov ${{ inputs.pkg-name }} ${{ inputs.tests-path }}
       if: ${{ always() }}

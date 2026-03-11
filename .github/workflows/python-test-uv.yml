@@ -1,0 +1,40 @@
+name: Test Python
+
+on:
+  workflow_call:
+    inputs:
+      python-version-file:
+        description: The file containing the Python version of your project. Defaults to pyproject.toml.
+        required: false
+        type: string
+        default: pyproject.toml
+      uv-version:
+        description: The version of uv to install e.g., `0.5.0` Defaults to the version in pyproject.toml or 'latest'.
+        type: string
+        required: false
+        default: ""
+      pkg-name:
+        description: 'The name of the package (for coverage)'
+        type: string
+        required: true
+      tests-path:
+        description: 'Path to point to for tests'
+        required: false
+        type: string
+        default: 'tests'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Test Python code
+        if: always()
+        uses: eshwen/adrenaline/uv/test-python@v0.8.0
+        with:
+          python-version-file: ${{ inputs.python-version-file }}
+          uv-version: ${{ inputs.uv-version }}
+          pkg-name: ${{ inputs.pkg-name }}
+          tests-path: ${{ inputs.tests-path }}
