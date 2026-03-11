@@ -27,7 +27,7 @@ runs:
     - uses: actions/checkout@v4
 
     - name: Build Project
-      uses: eshwen/adrenaline/builder@v0.8.0
+      uses: eshwen/adrenaline/uv/builder@v0.8.0
       with:
         python-version: ${{ inputs.python-version }}
         install-dev-deps: true
