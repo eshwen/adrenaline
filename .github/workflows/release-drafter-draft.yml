@@ -1,4 +1,4 @@
-name: Draft next release with Release Drafter
+name: Draft next release
 
 on:
   push:

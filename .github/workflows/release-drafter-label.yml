@@ -1,4 +1,4 @@
-name: Auto label PR with Release Drafter
+name: Auto label
 
 on:
   pull_request:
