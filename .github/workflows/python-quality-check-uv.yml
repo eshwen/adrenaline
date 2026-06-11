@@ -27,7 +27,7 @@ jobs:
 
       - name: Check code quality
         if: always()
-        uses: eshwen/adrenaline/uv/check-python@v0.8.1
+        uses: eshwen/adrenaline/uv/check-python@v0.8.2
         with:
           python-version-file: ${{ inputs.python-version-file }}
           uv-version: ${{ inputs.uv-version }}
