@@ -29,7 +29,7 @@ runs:
         clean: false
 
     - name: Build Project
-      uses: eshwen/adrenaline/uv/builder@v0.8.1
+      uses: eshwen/adrenaline/uv/builder@v0.8.2
       with:
         python-version-file: ${{ inputs.python-version-file }}
         install-dev-deps: true
