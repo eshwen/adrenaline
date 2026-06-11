@@ -19,6 +19,8 @@ runs:
 
   steps:
     - uses: actions/checkout@v6
+      with:
+        clean: false
     - name: Set up Python
       uses: actions/setup-python@v6
       with:
