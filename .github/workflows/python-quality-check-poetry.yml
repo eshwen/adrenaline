@@ -12,6 +12,11 @@ on:
         required: false
         type: string
         default: '.'
+      type-checker:
+        description: 'The type checker to use. Either `mypy` (default) or `pyrefly`.'
+        required: false
+        type: string
+        default: mypy
 
 jobs:
   lint:
@@ -25,3 +30,4 @@ jobs:
         with:
           python-version: ${{ inputs.python-version }}
           path: ${{ inputs.path }}
+          type-checker: ${{ inputs.type-checker }}

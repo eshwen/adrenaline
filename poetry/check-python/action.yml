@@ -9,6 +9,10 @@ inputs:
     description: 'Path to point to for checks'
     required: false
     default: '.'
+  type-checker:
+    description: 'The type checker to use. Either `mypy` (default) or `pyrefly`.'
+    required: false
+    default: mypy
 
 # TODO: Add options to enable/disable checks for specific packages? See if I can check whether a package is installed or not before attempting to run it?
 
@@ -16,6 +20,16 @@ runs:
   using: 'composite'
 
   steps:
+    - name: Validate type-checker input
+      shell: bash
+      env:
+        TYPE_CHECKER: ${{ inputs.type-checker }}
+      run: |
+        if [[ "$TYPE_CHECKER" != "mypy" && "$TYPE_CHECKER" != "pyrefly" ]]; then
+          echo "::error::Invalid 'type-checker' input: '$TYPE_CHECKER'. Must be 'mypy' or 'pyrefly'."
+          exit 1
+        fi
+
     - uses: actions/checkout@v4
 
     - name: Build Python
@@ -37,6 +51,11 @@ runs:
       run: poetry run ruff format ${{ inputs.path }} --diff
 
     - id: mypy
-      if: always()
+      if: ${{ always() && inputs.type-checker == 'mypy' }}
       shell: bash
       run: poetry run mypy ${{ inputs.path }}
+
+    - id: pyrefly
+      if: ${{ always() && inputs.type-checker == 'pyrefly' }}
+      shell: bash
+      run: poetry run pyrefly check --output-format github ${{ inputs.path }}
