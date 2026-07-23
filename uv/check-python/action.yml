@@ -56,7 +56,7 @@ runs:
         uv run ruff format ${{ inputs.path }} --diff
 
     - id: mypy
-      if: ${{ always() && inputs.type-checker. == 'mypy' }}
+      if: ${{ always() && inputs.type-checker == 'mypy' }}
       shell: bash
       run: uv run mypy ${{ inputs.path }}
 
