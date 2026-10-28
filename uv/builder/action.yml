@@ -6,6 +6,10 @@ inputs:
     description: The file containing the Python version of your project. Defaults to pyproject.toml.
     required: false
     default: pyproject.toml
+  python-version:
+    description: The version of Python to use e.g., `3.12`. Overrides `python-version-file` when set, so it can be used in a matrix.
+    required: false
+    default: ""
   uv-version:
     description: The version of uv to install e.g., `0.5.0` Defaults to the version in pyproject.toml or 'latest'.
     default: ""
@@ -24,11 +28,15 @@ runs:
     - name: Set up Python
       uses: actions/setup-python@v6
       with:
-        python-version-file: ${{ inputs.python-version-file }}
+        python-version: ${{ inputs.python-version }}
+        # Only pass the file when no version is given, otherwise setup-python warns that both are set
+        python-version-file: ${{ inputs.python-version == '' && inputs.python-version-file || '' }}
 
     - uses: astral-sh/setup-uv@v7
       with:
         version: ${{ inputs.uv-version }}
+        # Sets UV_PYTHON, so uv uses this version rather than whichever interpreter it finds first
+        python-version: ${{ inputs.python-version }}
         enable-cache: true
 
     - name: Install Dependencies (without dev)
