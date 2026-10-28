@@ -37,7 +37,7 @@ jobs:
 
       - name: Test Python code
         if: always()
-        uses: eshwen/adrenaline/uv/test-python@v0.9.0
+        uses: eshwen/adrenaline/uv/test-python@v0.10.0
         with:
           python-version-file: ${{ inputs.python-version-file }}
           python-version: ${{ inputs.python-version }}

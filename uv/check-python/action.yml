@@ -36,7 +36,7 @@ runs:
     - uses: actions/checkout@v6
 
     - name: Build Project
-      uses: eshwen/adrenaline/uv/builder@v0.9.0
+      uses: eshwen/adrenaline/uv/builder@v0.10.0
       with:
         python-version-file: ${{ inputs.python-version-file }}
         install-dev-deps: true
