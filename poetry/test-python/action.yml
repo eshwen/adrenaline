@@ -21,7 +21,7 @@ runs:
   using: 'composite'
 
   steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Build Python
       uses: eshwen/adrenaline/poetry/builder@v0.10.0
