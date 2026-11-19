@@ -2,6 +2,10 @@ name-template: 'v$RESOLVED_VERSION 🌈'
 tag-template: 'v$RESOLVED_VERSION'
 
 categories:
+  - title: '🚨 Breaking Changes'
+    labels:
+      - 'breaking'
+      - 'major'
   - title: '🚀 Features'
     labels:
       - 'feature'
@@ -26,6 +30,7 @@ version-resolver:
   major:
     labels:
       - 'major'
+      - 'breaking'
   minor:
     labels:
       - 'minor'
@@ -38,7 +43,6 @@ autolabeler:
   - label: 'documentation'
     files:
       - 'README.md'
-      - 'mkdocs.yml'
       - 'docs/**'
     branch:
       - '/docs{0,1}\/.+/'
@@ -52,8 +56,9 @@ autolabeler:
       - '/feature\/.+/'
   - label: 'github_actions'
     files:
-      - '.github/workflows/*.yml'
-      - .github/actions/**'
+      - '.github/**'
+      - 'uv/**'
+      - 'poetry/**'
 
 template: |
   ## Changes
