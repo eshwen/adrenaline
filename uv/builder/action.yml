@@ -25,19 +25,32 @@ runs:
     - uses: actions/checkout@v6
       with:
         clean: false
-    - name: Set up Python
-      uses: actions/setup-python@v6
-      with:
-        python-version: ${{ inputs.python-version }}
-        # Only pass the file when no version is given, otherwise setup-python warns that both are set
-        python-version-file: ${{ inputs.python-version == '' && inputs.python-version-file || '' }}
 
-    - uses: astral-sh/setup-uv@v7
+    # Otherwise uv uses the runner image's system Python, pinning us to whatever patch release the image ships
+    - name: Use uv-managed Python only
+      run: echo "UV_PYTHON_PREFERENCE=only-managed" >> "$GITHUB_ENV"
+      shell: bash
+
+    # uv already reads requires-python from pyproject.toml, so only other version files need reading here
+    - name: Resolve Python version
+      id: python
+      shell: bash
+      env:
+        PYTHON_VERSION: ${{ inputs.python-version }}
+        PYTHON_VERSION_FILE: ${{ inputs.python-version-file }}
+      run: |
+        if [[ -z "$PYTHON_VERSION" && "$(basename "$PYTHON_VERSION_FILE")" != "pyproject.toml" ]]; then
+          PYTHON_VERSION=$(grep -v '^#' "$PYTHON_VERSION_FILE" | head -n 1 | tr -d '[:space:]')
+        fi
+        echo "version=$PYTHON_VERSION" >> "$GITHUB_OUTPUT"
+
+    - uses: astral-sh/setup-uv@v10.3.3
       with:
         version: ${{ inputs.uv-version }}
         # Sets UV_PYTHON, so uv uses this version rather than whichever interpreter it finds first
-        python-version: ${{ inputs.python-version }}
+        python-version: ${{ steps.python.outputs.version }}
         enable-cache: true
+        cache-python: true
 
     - name: Install Dependencies (without dev)
       run: |
