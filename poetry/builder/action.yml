@@ -15,7 +15,7 @@ runs:
 
   steps:
     # Weird workaround so that the other actions and workflows calling this can see it
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Set up Python ${{ inputs.python-version }}
       uses: actions/setup-python@v7
@@ -42,7 +42,7 @@ runs:
       shell: bash
 
     - name: Set up cache
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       id: cache
       with:
         path: .venv
